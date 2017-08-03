@@ -16,15 +16,19 @@ window.addEventListener('load', function() {
   var my = -2;
 
   var drawBall = function() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
     context.beginPath();
     context.arc(x, y, 10, 0, Math.PI * 2);
     context.fillStyle = 'orange';
     context.fill();
     context.closePath();
+  }
+
+  var drawObjects = function() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    drawBall();
     x += mx;
     y += my;
   }
-  setInterval(drawBall, 10);
+  setInterval(drawObjects, 10);
 
 })
