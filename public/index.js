@@ -3,13 +3,8 @@ window.addEventListener('load', function() {
   //var canvas = document.querySelector('.gameCanvas');
   var canvas = document.getElementById('gameCanvas');
   var context = canvas.getContext('2d');
-
-  // //text draw on canvas
-  // context.beginPath();
-  // context.rect(60,40,30,30);
-  // context.fillStyle = 'orange';
-  // context.fill();
-  // context.closePath();  
+ 
+  var ballSize = 10;
   var x = canvas.width / 2;
   var y = canvas.height - 30;
   var mx = 2;
@@ -17,7 +12,7 @@ window.addEventListener('load', function() {
 
   var drawBall = function() {
     context.beginPath();
-    context.arc(x, y, 10, 0, Math.PI * 2);
+    context.arc(x, y, ballSize, 0, Math.PI * 2);
     context.fillStyle = 'orange';
     context.fill();
     context.closePath();
@@ -28,6 +23,15 @@ window.addEventListener('load', function() {
     drawBall();
     x += mx;
     y += my;
+
+    if (y + my < ballSize || y + my > canvas.height - ballSize) {
+      my = -my;
+    }
+
+
+    if (x + mx < ballSize || x + mx > canvas.width - ballSize) {
+      mx = -mx;
+    }
   }
   setInterval(drawObjects, 10);
 
