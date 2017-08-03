@@ -3,7 +3,7 @@ window.addEventListener('load', function() {
   //var canvas = document.querySelector('.gameCanvas');
   var canvas = document.getElementById('gameCanvas');
   var context = canvas.getContext('2d');
- 
+
   var ballSize = 10;
   var paddleHeight = 10;
   var paddleWeidth = 75;
@@ -12,6 +12,27 @@ window.addEventListener('load', function() {
   var y = canvas.height - 30;
   var mx = 2;
   var my = -2;
+  var rightKeyPressed = false;
+  var leftKeyPressed = false;
+
+  document.addEventListener('keydown', keyDownHandler, false);
+  document.addEventListener('keyup', keyUpHandler, false);
+
+    function keyDownHandler(e) {
+    if (e.keyCode == 78) {
+      leftKeyPressed = true;
+    } else if (e.keyCode == 77) {
+      rightKeyPressed = true;
+    }
+  }
+  
+    function keyUpHandler(e) {
+    if (e.keyCode == 78) {
+      leftKeyPressed = false;
+    } else if (e.keyCode == 77) {
+      rightKeyPressed = false;
+    }
+  }
 
   var drawBall = function() {
     context.beginPath();
@@ -32,8 +53,7 @@ window.addEventListener('load', function() {
   var drawObjects = function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     drawBall();
-    x += mx;
-    y += my;
+    drawPaddle();
 
     if (y + my < ballSize || y + my > canvas.height - ballSize) {
       my = -my;
@@ -42,7 +62,15 @@ window.addEventListener('load', function() {
     if (x + mx < ballSize || x + mx > canvas.width - ballSize) {
       mx = -mx;
     }
-    drawPaddle();
+
+    if (leftKeyPressed && paddleX > 0) {
+      paddleX -= 7;
+    } else if (rightKeyPressed && paddleX < canvas.width) {
+      paddleX += 7;
+    }
+
+    x += mx;
+    y += my;
   }
   setInterval(drawObjects, 10);
 
