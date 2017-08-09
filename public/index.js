@@ -14,6 +14,20 @@ window.addEventListener('load', function() {
   var my = -2; //ball speed
   var rightKeyPressed = false;
   var leftKeyPressed = false;
+  var brickRowCount = 3;
+  var brickColmCount = 5;
+  var brickHeight = 20;
+  var brickWidth = 75;
+  var brickOffsetLeft = 30;
+  var brickOffsetTop = 30;
+  var brickPadding = 10;
+  var bricks = [];
+  for(columnNumber = 0; columnNumber < brickColmCount; columnNumber++) {
+    bricks[columnNumber] = [];
+    for(rowNumber = 0; rowNumber < brickRowCount; rowNumber++) {
+      bricks[columnNumber][rowNumber] = {x: 0, y: 0};
+    }
+  }
 
   document.addEventListener('keydown', keyDownHandler, false);
   document.addEventListener('keyup', keyUpHandler, false);
@@ -50,8 +64,27 @@ window.addEventListener('load', function() {
     context.closePath();
   }
 
+
+  var drawBricks = function() {
+    for(columnNumber = 0; columnNumber < brickColmCount; columnNumber++) {
+      for(rowNumber = 0; rowNumber < brickRowCount; rowNumber++) {
+        var brickX = (columnNumber * (brickWidth + brickPadding)) + brickOffsetLeft;
+        var brickY = (rowNumber * (brickHeight + brickPadding)) + brickOffsetTop;
+        bricks[columnNumber][rowNumber].x = brickX;
+        bricks[columnNumber][rowNumber].y = brickY;
+        context.beginPath();
+        context.rect(brickX, brickY, brickWidth, brickHeight);
+        context.fillStyle = 'green';
+        context.fill();
+        context.closePath();
+
+      }
+    }
+  }
+
   var drawObjects = function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
+    drawBricks();
     drawBall();
     drawPaddle();
 
