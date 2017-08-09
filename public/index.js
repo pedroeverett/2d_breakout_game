@@ -21,6 +21,7 @@ window.addEventListener('load', function() {
   var brickOffsetLeft = 30;
   var brickOffsetTop = 30;
   var brickPadding = 10;
+  
   var bricks = [];
   for(columnNumber = 0; columnNumber < brickColmCount; columnNumber++) {
     bricks[columnNumber] = [];
@@ -29,8 +30,24 @@ window.addEventListener('load', function() {
     }
   }
 
+  var ballHitsBrick = function() {
+    for(columnNumber = 0; columnNumber < brickColmCount; columnNumber++) {
+      for(rowNumber = 0; rowNumber < brickRowCount; rowNumber++) {
+        var b = bricks[columnNumber][rowNumber];
+        if(b.hit == true) {
+          if(y > b.y && y < b.y + brickHeight && x > b.x && x < b.x + brickWidth) {
+            my = -my;
+            b.hit = false;
+          }
+        }
+      }
+    }
+  }
+
   document.addEventListener('keydown', keyDownHandler, false);
   document.addEventListener('keyup', keyUpHandler, false);
+
+
 
     function keyDownHandler(e) {
     if (e.keyCode == 78) {
