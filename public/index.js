@@ -6,8 +6,8 @@ window.addEventListener('load', function() {
 
   var ballSize = 10;
   var paddleHeight = 10;
-  var paddleWeidth = 75;
-  var paddleX = (canvas.width - paddleWeidth) / 2;   
+  var paddleWidth = 75;
+  var paddleX = (canvas.width - paddleWidth) / 2;   
   var x = canvas.width / 2;
   var y = canvas.height - 30;
   var mx = 2;
@@ -44,7 +44,7 @@ window.addEventListener('load', function() {
 
   var drawPaddle = function() {
     context.beginPath();
-    context.rect(paddleX, canvas.height - paddleHeight, paddleWeidth, paddleHeight);
+    context.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
     context.fillStyle = 'black';
     context.fill();
     context.closePath();
@@ -55,17 +55,25 @@ window.addEventListener('load', function() {
     drawBall();
     drawPaddle();
 
-    if (y + my < ballSize || y + my > canvas.height - ballSize) {
+    if (y + my < ballSize) {
       my = -my;
+    } else if (y + my > canvas.height - ballSize) {
+    if (x > paddleX && x < paddleX + paddleWidth) {
+      my = -my; 
+    } else {
+        alert("GAME OVER");
+        document.location.reload();
+    }
     }
 
-    if (x + mx < ballSize || x + mx > canvas.width - ballSize) {
+    if (x + mx > canvas.width - ballSize || x + mx < ballSize) {
       mx = -mx;
     }
 
+
     if (leftKeyPressed && paddleX > 0) {
       paddleX -= 7;
-    } else if (rightKeyPressed && paddleX < canvas.width) {
+    } else if (rightKeyPressed && paddleX < canvas.width - paddleWidth) {
       paddleX += 7;
     }
 
