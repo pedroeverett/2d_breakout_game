@@ -7,7 +7,7 @@ window.addEventListener('load', function() {
   var ballSize = 10;
   var paddleHeight = 10;
   var paddleWidth = 75;
-  var paddleX = (canvas.width - paddleWidth) / 2;   
+  var paddleX = (canvas.width - paddleWidth) / 2;
   var x = canvas.width / 2;
   var y = canvas.height - 30;
   var mx = 2; //ball speed
@@ -34,11 +34,11 @@ window.addEventListener('load', function() {
     for(columnNumber = 0; columnNumber < brickColmCount; columnNumber++) {
       for(rowNumber = 0; rowNumber < brickRowCount; rowNumber++) {
         var b = bricks[columnNumber][rowNumber];
-        if(b.hit == true) {
-          if(y > b.y && y < b.y + brickHeight && x > b.x && x < b.x + brickWidth) {
+        // if(b.hit == true) {
+          if(y > b.y && y < b.y + brickHeight + ballSize && x > b.x && x < b.x + brickWidth + ballSize) {
             my = -my;
-            b.hit = false;
-          }
+          //   b.hit = false;
+          // }
         }
       }
     }
@@ -104,11 +104,12 @@ window.addEventListener('load', function() {
     drawBricks();
     drawBall();
     drawPaddle();
+    ballHitsBrick();
 
     if (y + my < ballSize) {
       my = -my;
-    } else if (y + my > canvas.height - ballSize) {
-    if (x > paddleX && x < paddleX + paddleWidth) {
+    } else if (y + my > (canvas.height - paddleHeight) - ballSize) {
+    if (x > paddleX - paddleWidth && x < paddleX + paddleWidth) {
       my = -my; //makes ball move faster/slower when hits the paddle
     } else {
         alert("GAME OVER");
