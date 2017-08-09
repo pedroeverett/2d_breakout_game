@@ -26,7 +26,7 @@ window.addEventListener('load', function() {
   for(columnNumber = 0; columnNumber < brickColmCount; columnNumber++) {
     bricks[columnNumber] = [];
     for(rowNumber = 0; rowNumber < brickRowCount; rowNumber++) {
-      bricks[columnNumber][rowNumber] = {x: 0, y: 0};
+      bricks[columnNumber][rowNumber] = {x: 0, y: 0, hit: true};
     }
   }
 
@@ -34,11 +34,11 @@ window.addEventListener('load', function() {
     for(columnNumber = 0; columnNumber < brickColmCount; columnNumber++) {
       for(rowNumber = 0; rowNumber < brickRowCount; rowNumber++) {
         var b = bricks[columnNumber][rowNumber];
-        // if(b.hit == true) {
+        if(b.hit == true) {
           if(y > b.y && y < b.y + brickHeight + ballSize && x > b.x && x < b.x + brickWidth + ballSize) {
             my = -my;
-          //   b.hit = false;
-          // }
+            b.hit = false;
+          }
         }
       }
     }
@@ -49,7 +49,7 @@ window.addEventListener('load', function() {
 
 
 
-    function keyDownHandler(e) {
+  function keyDownHandler(e) {
     if (e.keyCode == 78) {
       leftKeyPressed = true;
     } else if (e.keyCode == 77) {
@@ -57,7 +57,7 @@ window.addEventListener('load', function() {
     }
   }
   
-    function keyUpHandler(e) {
+  function keyUpHandler(e) {
     if (e.keyCode == 78) {
       leftKeyPressed = false;
     } else if (e.keyCode == 77) {
@@ -85,16 +85,17 @@ window.addEventListener('load', function() {
   var drawBricks = function() {
     for(columnNumber = 0; columnNumber < brickColmCount; columnNumber++) {
       for(rowNumber = 0; rowNumber < brickRowCount; rowNumber++) {
-        var brickX = (columnNumber * (brickWidth + brickPadding)) + brickOffsetLeft;
-        var brickY = (rowNumber * (brickHeight + brickPadding)) + brickOffsetTop;
-        bricks[columnNumber][rowNumber].x = brickX;
-        bricks[columnNumber][rowNumber].y = brickY;
-        context.beginPath();
-        context.rect(brickX, brickY, brickWidth, brickHeight);
-        context.fillStyle = 'green';
-        context.fill();
-        context.closePath();
-
+        if(bricks[columnNumber][rowNumber].hit == true) {
+          var brickX = (columnNumber * (brickWidth + brickPadding)) + brickOffsetLeft;
+          var brickY = (rowNumber * (brickHeight + brickPadding)) + brickOffsetTop;
+          bricks[columnNumber][rowNumber].x = brickX;
+          bricks[columnNumber][rowNumber].y = brickY;
+          context.beginPath();
+          context.rect(brickX, brickY, brickWidth, brickHeight);
+          context.fillStyle = 'green';
+          context.fill();
+          context.closePath();
+        }
       }
     }
   }
@@ -109,20 +110,20 @@ window.addEventListener('load', function() {
     if (y + my < ballSize) {
       my = -my;
     } else if (y + my > (canvas.height - paddleHeight) - ballSize) {
-    if (x > paddleX - paddleWidth && x < paddleX + paddleWidth) {
+      if (x > paddleX - paddleWidth && x < paddleX + paddleWidth) {
       my = -my; //makes ball move faster/slower when hits the paddle
     } else {
-        alert("GAME OVER");
-        document.location.reload();
+      alert("GAME OVER");
+      document.location.reload();
     }
-    }
+  }
 
-    if (x + mx > canvas.width - ballSize || x + mx < ballSize) {
-      mx = -mx;
-    }
+  if (x + mx > canvas.width - ballSize || x + mx < ballSize) {
+    mx = -mx;
+  }
 
 
-    if (leftKeyPressed && paddleX > 0) {
+  if (leftKeyPressed && paddleX > 0) {
       paddleX -= 7; //paddle speed left
     } else if (rightKeyPressed && paddleX < canvas.width - paddleWidth) {
       paddleX += 7; //paddle speed right
