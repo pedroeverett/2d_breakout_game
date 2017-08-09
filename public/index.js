@@ -10,8 +10,8 @@ window.addEventListener('load', function() {
   var paddleX = (canvas.width - paddleWidth) / 2;   
   var x = canvas.width / 2;
   var y = canvas.height - 30;
-  var mx = 2;
-  var my = -2;
+  var mx = 2; //ball speed
+  var my = -2; //ball speed
   var rightKeyPressed = false;
   var leftKeyPressed = false;
 
@@ -59,7 +59,7 @@ window.addEventListener('load', function() {
       my = -my;
     } else if (y + my > canvas.height - ballSize) {
     if (x > paddleX && x < paddleX + paddleWidth) {
-      my = -my; 
+      my = -my; //makes ball move faster/slower when hits the paddle
     } else {
         alert("GAME OVER");
         document.location.reload();
@@ -72,14 +72,14 @@ window.addEventListener('load', function() {
 
 
     if (leftKeyPressed && paddleX > 0) {
-      paddleX -= 7;
+      paddleX -= 7; //paddle speed left
     } else if (rightKeyPressed && paddleX < canvas.width - paddleWidth) {
-      paddleX += 7;
+      paddleX += 7; //paddle speed right
     }
 
     x += mx;
     y += my;
   }
-  setInterval(drawObjects, 10);
+  setInterval(drawObjects, 10); //10 is the time in miliseconds
 
 })
